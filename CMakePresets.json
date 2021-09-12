@@ -1,0 +1,85 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 21,
+        "patch": 4
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build",
+            "hidden": true
+        },
+        {
+            "name": "macos",
+            "inherits": "default",
+            "hidden": true
+        },
+        {
+            "name": "macos-debug",
+            "inherits": "macos",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "macos-universal-debug",
+            "inherits": "macos-debug",
+            "displayName": "MacOS universal debug build",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "x86_64;arm64"
+            }
+        },
+        {
+            "name": "macos-x86-64-debug",
+            "inherits": "macos-debug",
+            "displayName": "MacOS x86_64 debug build",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "x86_64"
+            }
+        },
+        {
+            "name": "macos-arm-debug",
+            "inherits": "macos-debug",
+            "displayName": "MacOS arm debug build",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "arm64"
+            }
+        },
+        {
+            "name": "macos-release",
+            "inherits": "macos",
+            "hidden": true,
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "macos-universal-release",
+            "inherits": "macos-release",
+            "displayName": "MacOS universal release build",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "x86_64;arm64"
+            }
+        },
+        {
+            "name": "macos-x86-64-release",
+            "inherits": "macos-release",
+            "displayName": "MacOS x86_64 release build",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "x86_64"
+            }
+        },
+        {
+            "name": "macos-arm-release",
+            "inherits": "macos-release",
+            "displayName": "MacOS arm release build",
+            "cacheVariables": {
+                "CMAKE_OSX_ARCHITECTURES": "arm64"
+            }
+        }
+    ]
+}
