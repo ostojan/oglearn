@@ -4,6 +4,10 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "Shader.hpp"
+#include "ShaderProgram.hpp"
+#include "utils/Paths.hpp"
+
 constexpr int windowWidth = 800;
 constexpr int windowHeight = 600;
 
@@ -60,6 +64,16 @@ int main(int argCount, const char *const *const argValues)
         glfwGetFramebufferSize(window, &width, &height);
         glViewport(0, 0, width, height);
         glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
+
+        oglearn::ShaderProgram program;
+        {
+            oglearn::Shader vertexShader{GL_VERTEX_SHADER, oglearn::utils::paths::shaders::basicVertexShader};
+            oglearn::Shader fragmentShader{GL_FRAGMENT_SHADER, oglearn::utils::paths::shaders::basicFragmentShader};
+
+            program.AttachShader(vertexShader);
+            program.AttachShader(fragmentShader);
+            program.Link();
+        }
 
         while (!glfwWindowShouldClose(window))
         {
