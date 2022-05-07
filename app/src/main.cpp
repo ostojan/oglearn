@@ -4,6 +4,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+constexpr int windowWidth = 800;
+constexpr int windowHeight = 600;
+
 void initializeGlfw()
 {
     glfwInit();
@@ -14,7 +17,7 @@ void initializeGlfw()
 
 GLFWwindow *createWindow()
 {
-    auto window = glfwCreateWindow(800, 600, "OpenGL App Template", nullptr, nullptr);
+    auto window = glfwCreateWindow(windowWidth, windowHeight, "OpenGL App Template", nullptr, nullptr);
     if (window == nullptr)
     {
         throw std::runtime_error("Failed to create GLFW window");
@@ -52,7 +55,10 @@ int main(int argCount, const char *const *const argValues)
         auto window = createWindow();
         initializeGlad();
 
-        glViewport(0, 0, 800, 600);
+        int width = 0;
+        int height = 0;
+        glfwGetFramebufferSize(window, &width, &height);
+        glViewport(0, 0, width, height);
         glfwSetFramebufferSizeCallback(window, framebufferSizeCallback);
 
         while (!glfwWindowShouldClose(window))
