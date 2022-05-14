@@ -5,8 +5,12 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
+#include "ElementBufferObject.hpp"
 #include "Shader.hpp"
 #include "ShaderProgram.hpp"
+#include "VertexArrayObject.hpp"
+#include "VertexAttributeDescriptor.hpp"
+#include "VertexBufferObject.hpp"
 #include "utils/Paths.hpp"
 
 constexpr int windowWidth = 800;
@@ -76,38 +80,24 @@ int main(int argCount, const char *const *const argValues)
             program.Link();
         }
 
-        std::array indices = {
+        std::array<GLfloat, 12> vertexAttributes{
+            0.5f, 0.5f, 0.0f,   // top right
+            0.5f, -0.5f, 0.0f,  // bottom right
+            -0.5f, -0.5f, 0.0f, // bottom left
+            -0.5f, 0.5f, 0.0f,  // top left
+        };
+        std::array<oglearn::VertexAttributeDescriptor, 1> vertexAttrbuteDescriptors{
+            {0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0}, // vertex position
+        };
+        oglearn::VertexBufferObject vbo{vertexAttributes.data(), sizeof(vertexAttributes)};
+
+        std::array<GLuint, 6> indices{
             0, 1, 2, // first triangle
             0, 2, 3, // second triangle
         };
+        oglearn::ElementBufferObject ebo{indices.data(), sizeof(indices)};
 
-        GLuint vao = -1;
-        {
-            glGenVertexArrays(1, &vao);
-            glBindVertexArray(vao);
-
-            std::array vertexAttributes = {
-                0.5f, 0.5f, 0.0f,   // top right
-                0.5f, -0.5f, 0.0f,  // bottom right
-                -0.5f, -0.5f, 0.0f, // bottom left
-                -0.5f, 0.5f, 0.0f,  // top left
-            };
-
-            GLuint vbo = -1;
-            glGenBuffers(1, &vbo);
-            glBindBuffer(GL_ARRAY_BUFFER, vbo);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(vertexAttributes), vertexAttributes.data(), GL_STATIC_DRAW);
-
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
-            glEnableVertexAttribArray(0);
-
-            GLuint ebo = -1;
-            glGenBuffers(1, &ebo);
-            glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices.data(), GL_STATIC_DRAW);
-
-            glBindVertexArray(0);
-        }
+        oglearn::VertexArrayObject vao{vbo, vertexAttrbuteDescriptors.data(), vertexAttrbuteDescriptors.size(), ebo};
 
         while (!glfwWindowShouldClose(window))
         {
@@ -117,7 +107,7 @@ int main(int argCount, const char *const *const argValues)
             glClear(GL_COLOR_BUFFER_BIT);
 
             program.Use();
-            glBindVertexArray(vao);
+            vao.Bind();
             glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
 
             glfwSwapBuffers(window);
