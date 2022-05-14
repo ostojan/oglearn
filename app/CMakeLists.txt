@@ -5,6 +5,7 @@ set(APP_SOURCES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ElementBufferObject.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/Shader.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/ShaderProgram.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/VertexArrayObject.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/VertexBufferObject.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
 
