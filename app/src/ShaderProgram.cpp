@@ -39,4 +39,83 @@ namespace oglearn
     {
         glUseProgram(id);
     }
+
+    template <>
+    void ShaderProgram::SetUniform1(const std::string_view name, const float value1) const
+    {
+        glUniform1f(GetUniformLocation(name), value1);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform2(const std::string_view name, const float value1, const float value2) const
+    {
+        glUniform2f(GetUniformLocation(name), value1, value2);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform3(const std::string_view name, const float value1, const float value2, const float value3) const
+    {
+        glUniform3f(GetUniformLocation(name), value1, value2, value3);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform4(const std::string_view name, const float value1, const float value2, const float value3, const float value4) const
+    {
+        glUniform4f(GetUniformLocation(name), value1, value2, value3, value4);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform1(const std::string_view name, const int value1) const
+    {
+        glUniform1i(GetUniformLocation(name), value1);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform2(const std::string_view name, const int value1, const int value2) const
+    {
+        glUniform2i(GetUniformLocation(name), value1, value2);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform3(const std::string_view name, const int value1, const int value2, const int value3) const
+    {
+        glUniform3i(GetUniformLocation(name), value1, value2, value3);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform4(const std::string_view name, const int value1, const int value2, const int value3, const int value4) const
+    {
+        glUniform4i(GetUniformLocation(name), value1, value2, value3, value4);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform1(const std::string_view name, const unsigned int value1) const
+    {
+        glUniform1ui(GetUniformLocation(name), value1);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform2(const std::string_view name, const unsigned int value1, const unsigned int value2) const
+    {
+        glUniform2ui(GetUniformLocation(name), value1, value2);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform3(const std::string_view name, const unsigned int value1, const unsigned int value2, const unsigned int value3) const
+    {
+        glUniform3ui(GetUniformLocation(name), value1, value2, value3);
+    }
+
+    template <>
+    void ShaderProgram::SetUniform4(const std::string_view name, const unsigned int value1, const unsigned int value2, const unsigned int value3, const unsigned int value4) const
+    {
+        glUniform4ui(GetUniformLocation(name), value1, value2, value3, value4);
+    }
+
+    const GLint ShaderProgram::GetUniformLocation(const std::string_view name) const
+    {
+        auto location = glGetUniformLocation(id, name.data());
+        assert(location != -1);
+        return location;
+    }
 }
