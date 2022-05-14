@@ -80,15 +80,16 @@ int main(int argCount, const char *const *const argValues)
             program.Link();
         }
 
-        std::array<GLfloat, 12> vertexAttributes{
-            0.5f, 0.5f, 0.0f,   // top right
-            0.5f, -0.5f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f, // bottom left
-            -0.5f, 0.5f, 0.0f,  // top left
+        std::array<GLfloat, 24> vertexAttributes{
+            0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,   // top right
+            0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom right
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
+            -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f,  // top left
         };
-        std::array<oglearn::VertexAttributeDescriptor, 1> vertexAttrbuteDescriptors{
-            {0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0}, // vertex position
-        };
+        std::array<oglearn::VertexAttributeDescriptor, 2> vertexAttrbuteDescriptors{{
+            {0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0},                 // vertex position
+            {1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 3 * sizeof(float)}, // vertex color
+        }};
         oglearn::VertexBufferObject vbo{vertexAttributes.data(), sizeof(vertexAttributes)};
 
         std::array<GLuint, 6> indices{
