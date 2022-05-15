@@ -13,7 +13,9 @@ set(APP_SOURCES
 set(APP_SHADERS_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/shaders)
 set(APP_SHADERS
     basic/fragment.glsl
-    basic/vertex.glsl)
+    basic/vertex.glsl
+    textures/fragment.glsl
+    textures/vertex.glsl)
 
 foreach(SHADER IN LISTS APP_SHADERS)
     set(SHADER_INPUT_PATH ${APP_SHADERS_ROOT}/${SHADER})
