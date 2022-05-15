@@ -15,6 +15,7 @@ namespace oglearn::utils::paths
 
     namespace textures
     {
+        constexpr const char *awesomefaceTexture = "textures/awesomeface.png";
         constexpr const char *containerTexture = "textures/container.jpg";
     }
 }

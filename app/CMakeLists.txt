@@ -28,6 +28,7 @@ endforeach()
 
 set(APP_TEXTURES_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/textures)
 set(APP_TEXTURES
+    awesomeface.png
     container.jpg)
 
 set(APP_RESOURCES)
