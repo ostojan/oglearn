@@ -24,8 +24,21 @@ foreach(SHADER IN LISTS APP_SHADERS)
     list(APPEND APP_SOURCES ${SHADER_OUTPUT_PATH})
 endforeach()
 
+set(APP_TEXTURES_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/textures)
+set(APP_TEXTURES
+    container.jpg)
 
-add_executable(${APP_NAME} ${APP_SOURCES})
+set(APP_RESOURCES)
+foreach(TEXTURE IN LISTS APP_TEXTURES)
+    set(TEXTURE_INPUT_PATH ${APP_TEXTURES_ROOT}/${TEXTURE})
+    set(TEXTURE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR}/textures/${TEXTURE})
+    add_custom_command(OUTPUT ${TEXTURE_OUTPUT_PATH}
+                       COMMAND ${CMAKE_COMMAND} -E copy ${TEXTURE_INPUT_PATH} ${TEXTURE_OUTPUT_PATH}
+                       DEPENDS ${TEXTURE_INPUT_PATH})
+    list(APPEND APP_RESOURCES ${TEXTURE_OUTPUT_PATH})
+endforeach()
+
+add_executable(${APP_NAME} ${APP_SOURCES} ${APP_RESOURCES})
 target_link_libraries(${APP_NAME} PRIVATE ${EXTERNAL_LIBS} ${UTILS_LIBS})
 target_include_directories(${APP_NAME} PRIVATE ${APP_INCLUDES})
 

@@ -7,6 +7,9 @@ namespace oglearn::utils::paths
     {
         constexpr const char *basicVertexShader = "shaders/basic/vertex.glsl";
         constexpr const char *basicFragmentShader = "shaders/basic/fragment.glsl";
+    namespace textures
+    {
+        constexpr const char *containerTexture = "textures/container.jpg";
     }
 }
 
