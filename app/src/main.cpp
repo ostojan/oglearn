@@ -8,6 +8,7 @@
 #include "ElementBufferObject.hpp"
 #include "Shader.hpp"
 #include "ShaderProgram.hpp"
+#include "TextureObject.hpp"
 #include "VertexArrayObject.hpp"
 #include "VertexAttributeDescriptor.hpp"
 #include "VertexBufferObject.hpp"
@@ -72,23 +73,24 @@ int main(int argCount, const char *const *const argValues)
 
         oglearn::ShaderProgram program;
         {
-            oglearn::Shader vertexShader{GL_VERTEX_SHADER, oglearn::utils::paths::shaders::basicVertexShader};
-            oglearn::Shader fragmentShader{GL_FRAGMENT_SHADER, oglearn::utils::paths::shaders::basicFragmentShader};
+            oglearn::Shader vertexShader{GL_VERTEX_SHADER, oglearn::utils::paths::shaders::texturesVertexShader};
+            oglearn::Shader fragmentShader{GL_FRAGMENT_SHADER, oglearn::utils::paths::shaders::texturesFragmentShader};
 
             program.AttachShader(vertexShader);
             program.AttachShader(fragmentShader);
             program.Link();
         }
 
-        std::array<GLfloat, 24> vertexAttributes{
-            0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f,   // top right
-            0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,  // bottom right
-            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, // bottom left
-            -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f,  // top left
+        std::array<GLfloat, 32> vertexAttributes{
+            0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // top right
+            0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f,  // bottom right
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, // bottom left
+            -0.5f, 0.5f, 0.0f, 0.5f, 0.5f, 0.5f, 0.0f, 1.0f,  // top left
         };
-        std::array<oglearn::VertexAttributeDescriptor, 2> vertexAttrbuteDescriptors{{
-            {0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 0},                 // vertex position
-            {1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), 3 * sizeof(float)}, // vertex color
+        std::array<oglearn::VertexAttributeDescriptor, 3> vertexAttrbuteDescriptors{{
+            {0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0},                 // vertex position
+            {1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 3 * sizeof(float)}, // vertex color
+            {2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 6 * sizeof(float)}, // texture coordinates
         }};
         oglearn::VertexBufferObject vbo{vertexAttributes.data(), sizeof(vertexAttributes)};
 
@@ -100,6 +102,8 @@ int main(int argCount, const char *const *const argValues)
 
         oglearn::VertexArrayObject vao{vbo, vertexAttrbuteDescriptors.data(), vertexAttrbuteDescriptors.size(), ebo};
 
+        oglearn::TextureObject texture{oglearn::utils::paths::textures::containerTexture, 0u};
+
         while (!glfwWindowShouldClose(window))
         {
             processInput(window);
@@ -107,7 +111,9 @@ int main(int argCount, const char *const *const argValues)
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            texture.Bind();
             program.Use();
+            program.SetUniform1("texture1", static_cast<int>(texture.GetTextureId()));
             vao.Bind();
             glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
 
