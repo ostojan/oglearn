@@ -16,4 +16,8 @@ list(APPEND LIBRARIES_LIST glfw)
 find_package(OpenGL REQUIRED)
 list(APPEND LIBRARIES_LIST ${OPENGL_LIBRARIES})
 
+# stb image configuration
+add_subdirectory(stb_image)
+list(APPEND LIBRARIES_LIST stb_image)
+
 set(EXTERNAL_LIBS ${LIBRARIES_LIST} PARENT_SCOPE)
