@@ -102,7 +102,8 @@ int main(int argCount, const char *const *const argValues)
 
         oglearn::VertexArrayObject vao{vbo, vertexAttrbuteDescriptors.data(), vertexAttrbuteDescriptors.size(), ebo};
 
-        oglearn::TextureObject texture{oglearn::utils::paths::textures::containerTexture, 0u};
+        oglearn::TextureObject texture1{oglearn::utils::paths::textures::containerTexture, 0u};
+        oglearn::TextureObject texture2{oglearn::utils::paths::textures::awesomefaceTexture, 1u};
 
         while (!glfwWindowShouldClose(window))
         {
@@ -111,9 +112,11 @@ int main(int argCount, const char *const *const argValues)
             glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT);
 
-            texture.Bind();
+            texture1.Bind();
+            texture2.Bind();
             program.Use();
-            program.SetUniform1("texture1", static_cast<int>(texture.GetTextureId()));
+            program.SetUniform1("texture1", static_cast<int>(texture1.GetTextureId()));
+            program.SetUniform1("texture2", static_cast<int>(texture2.GetTextureId()));
             vao.Bind();
             glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
 
