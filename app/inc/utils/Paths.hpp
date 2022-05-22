@@ -11,6 +11,9 @@ namespace oglearn::utils::paths
         // Texture
         constexpr const char *texturesVertexShader = "shaders/textures/vertex.glsl";
         constexpr const char *texturesFragmentShader = "shaders/textures/fragment.glsl";
+        // Transforms
+        constexpr const char *transformsVertexShader = "shaders/transforms/vertex.glsl";
+        constexpr const char *transformsFragmentShader = "shaders/transforms/fragment.glsl";
     }
 
     namespace textures
