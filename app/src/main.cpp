@@ -4,6 +4,8 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "ElementBufferObject.hpp"
 #include "Shader.hpp"
@@ -73,8 +75,8 @@ int main(int argCount, const char *const *const argValues)
 
         oglearn::ShaderProgram program;
         {
-            oglearn::Shader vertexShader{GL_VERTEX_SHADER, oglearn::utils::paths::shaders::texturesVertexShader};
-            oglearn::Shader fragmentShader{GL_FRAGMENT_SHADER, oglearn::utils::paths::shaders::texturesFragmentShader};
+            oglearn::Shader vertexShader{GL_VERTEX_SHADER, oglearn::utils::paths::shaders::transformsVertexShader};
+            oglearn::Shader fragmentShader{GL_FRAGMENT_SHADER, oglearn::utils::paths::shaders::transformsFragmentShader};
 
             program.AttachShader(vertexShader);
             program.AttachShader(fragmentShader);
@@ -105,6 +107,9 @@ int main(int argCount, const char *const *const argValues)
         oglearn::TextureObject texture1{oglearn::utils::paths::textures::containerTexture, 0u};
         oglearn::TextureObject texture2{oglearn::utils::paths::textures::awesomefaceTexture, 1u};
 
+        glm::mat4 transform{1.0f};
+        transform = glm::rotate(transform, glm::radians(45.0f), glm::vec3{0.0f, 0.0f, 1.0f});
+
         while (!glfwWindowShouldClose(window))
         {
             processInput(window);
@@ -117,6 +122,7 @@ int main(int argCount, const char *const *const argValues)
             program.Use();
             program.SetUniform1("texture1", static_cast<int>(texture1.GetTextureId()));
             program.SetUniform1("texture2", static_cast<int>(texture2.GetTextureId()));
+            program.SetUniformV("transform", transform);
             vao.Bind();
             glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, nullptr);
 
