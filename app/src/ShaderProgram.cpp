@@ -2,6 +2,9 @@
 
 #include <array>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 namespace oglearn
 {
     ShaderProgram::ShaderProgram()
@@ -110,6 +113,12 @@ namespace oglearn
     void ShaderProgram::SetUniform4(const std::string_view name, const unsigned int value1, const unsigned int value2, const unsigned int value3, const unsigned int value4) const
     {
         glUniform4ui(GetUniformLocation(name), value1, value2, value3, value4);
+    }
+
+    template <>
+    void ShaderProgram::SetUniformV(const std::string_view name, const glm::mat4x4 &value) const
+    {
+        glUniformMatrix4fv(GetUniformLocation(name), 1, GL_FALSE, glm::value_ptr(value));
     }
 
     const GLint ShaderProgram::GetUniformLocation(const std::string_view name) const
