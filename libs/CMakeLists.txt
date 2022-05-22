@@ -20,4 +20,8 @@ list(APPEND LIBRARIES_LIST ${OPENGL_LIBRARIES})
 add_subdirectory(stb_image)
 list(APPEND LIBRARIES_LIST stb_image)
 
+# stb image configuration
+add_subdirectory(glm)
+list(APPEND LIBRARIES_LIST glm)
+
 set(EXTERNAL_LIBS ${LIBRARIES_LIST} PARENT_SCOPE)
